@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SheSafe - Emergency Alert</title>
     <style>
         :root {
-            --bg-color: #FFF0F5; /* Lavender Blush */
-            --primary-color: #FF6B6B; /* Soft Red */
-            --secondary-color: #E6E6FA; /* Lavender */
+            --bg-color: #FFF0F5;
+            /* Lavender Blush */
+            --primary-color: #FF6B6B;
+            /* Soft Red */
+            --secondary-color: #E6E6FA;
+            /* Lavender */
             --text-color: #333;
             --white: #ffffff;
-            --shadow: 0 4px 15px rgba(0,0,0,0.1);
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         * {
@@ -65,7 +69,7 @@
             height: 250px;
             border-radius: 50%;
             background: var(--primary-color);
-            border: 8px solid rgba(255,255,255,0.5);
+            border: 8px solid rgba(255, 255, 255, 0.5);
             color: white;
             font-size: 1.8rem;
             font-weight: 800;
@@ -90,9 +94,17 @@
         }
 
         @keyframes pulse-shadow {
-            0% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7); }
-            70% { box-shadow: 0 0 0 20px rgba(255, 107, 107, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0); }
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 20px rgba(255, 107, 107, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 107, 107, 0);
+            }
         }
 
         /* Secondary Actions */
@@ -104,13 +116,15 @@
             max-width: 400px;
             margin-bottom: 40px;
         }
-        
+
         .actions-grid .action-btn:last-child {
-            grid-column: span 2; /* Make alarm button full width on last row if 3 items */
+            grid-column: span 2;
+            /* Make alarm button full width on last row if 3 items */
         }
+
         /* Actually user asked for 3 buttons: Call, Fake Call, Alarm. */
         /* Let's make "Call" and "Fake Call" side-by-side, "Alarm" below full width */
-        
+
         .action-btn {
             background: var(--white);
             border: none;
@@ -135,11 +149,11 @@
 
         .action-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
         }
-        
+
         .action-btn:active {
-             transform: translateY(-1px);
+            transform: translateY(-1px);
         }
 
         .action-btn.alarm-active {
@@ -149,17 +163,49 @@
         }
 
         @keyframes shake {
-            0% { transform: translate(1px, 1px) rotate(0deg); }
-            10% { transform: translate(-1px, -2px) rotate(-1deg); }
-            20% { transform: translate(-3px, 0px) rotate(1deg); }
-            30% { transform: translate(3px, 2px) rotate(0deg); }
-            40% { transform: translate(1px, -1px) rotate(1deg); }
-            50% { transform: translate(-1px, 2px) rotate(-1deg); }
-            60% { transform: translate(-3px, 1px) rotate(0deg); }
-            70% { transform: translate(3px, 1px) rotate(-1deg); }
-            80% { transform: translate(-1px, -1px) rotate(1deg); }
-            90% { transform: translate(1px, 2px) rotate(0deg); }
-            100% { transform: translate(1px, -2px) rotate(-1deg); }
+            0% {
+                transform: translate(1px, 1px) rotate(0deg);
+            }
+
+            10% {
+                transform: translate(-1px, -2px) rotate(-1deg);
+            }
+
+            20% {
+                transform: translate(-3px, 0px) rotate(1deg);
+            }
+
+            30% {
+                transform: translate(3px, 2px) rotate(0deg);
+            }
+
+            40% {
+                transform: translate(1px, -1px) rotate(1deg);
+            }
+
+            50% {
+                transform: translate(-1px, 2px) rotate(-1deg);
+            }
+
+            60% {
+                transform: translate(-3px, 1px) rotate(0deg);
+            }
+
+            70% {
+                transform: translate(3px, 1px) rotate(-1deg);
+            }
+
+            80% {
+                transform: translate(-1px, -1px) rotate(1deg);
+            }
+
+            90% {
+                transform: translate(1px, 2px) rotate(0deg);
+            }
+
+            100% {
+                transform: translate(1px, -2px) rotate(-1deg);
+            }
         }
 
         /* Safety Tips */
@@ -182,7 +228,7 @@
             border-radius: 12px;
             margin-bottom: 10px;
             overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
             transition: all 0.3s ease;
         }
 
@@ -193,16 +239,17 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(230, 230, 250, 0.3); /* faint lavender */
+            background: rgba(230, 230, 250, 0.3);
+            /* faint lavender */
         }
-        
+
         .tip-header::after {
             content: '+';
             font-size: 1.2rem;
             font-weight: bold;
             color: var(--primary-color);
         }
-        
+
         .tip-card.open .tip-header::after {
             content: '-';
         }
@@ -216,10 +263,11 @@
             color: #666;
             line-height: 1.5;
         }
-        
+
         .tip-card.open .tip-content {
             padding: 15px;
-            max-height: 200px; /* approximation */
+            max-height: 200px;
+            /* approximation */
             border-top: 1px solid #f0f0f0;
         }
 
@@ -238,7 +286,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #000; /* mimic phone call screen usually dark or blurred wallpaper */
+            background: #000;
+            /* mimic phone call screen usually dark or blurred wallpaper */
             background: linear-gradient(135deg, #1a1a2e, #16213e);
             color: white;
             z-index: 9999;
@@ -279,7 +328,7 @@
             font-weight: 300;
             margin-bottom: 10px;
         }
-        
+
         .caller-status {
             font-size: 1.2rem;
             opacity: 0.8;
@@ -303,22 +352,29 @@
             color: white;
             border: none;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
         .decline-btn {
             background-color: #ff3b30;
             animation: bounce 2s infinite;
         }
-        
+
         .accept-btn {
             background-color: #4cd964;
             animation: bounce 2s infinite 1s;
         }
 
         @keyframes bounce {
-             0%, 100% { transform: translateY(0); }
-             50% { transform: translateY(-10px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
         }
 
         /* Toast Notification */
@@ -327,7 +383,7 @@
             bottom: 80px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(0,0,0,0.8);
+            background: rgba(0, 0, 0, 0.8);
             color: white;
             padding: 12px 24px;
             border-radius: 50px;
@@ -337,12 +393,13 @@
             pointer-events: none;
             z-index: 100;
         }
-        
+
         .toast.show {
             opacity: 1;
         }
     </style>
 </head>
+
 <body>
 
     <header>
@@ -374,25 +431,29 @@
 
         <div class="safety-section">
             <h3 class="safety-header">Safety Tips</h3>
-            
+
             <div class="tip-card" onclick="toggleTip(this)">
                 <div class="tip-header">Trust Your Instincts</div>
-                <div class="tip-content">If something feels wrong, it probably is. Leave the situation immediately or move to a crowded place.</div>
+                <div class="tip-content">If something feels wrong, it probably is. Leave the situation immediately or
+                    move to a crowded place.</div>
             </div>
-            
+
             <div class="tip-card" onclick="toggleTip(this)">
                 <div class="tip-header">Share Your Location</div>
-                <div class="tip-content">Enable live location sharing with trusted contacts on WhatsApp or Google Maps before traveling.</div>
+                <div class="tip-content">Enable live location sharing with trusted contacts on WhatsApp or Google Maps
+                    before traveling.</div>
             </div>
-            
+
             <div class="tip-card" onclick="toggleTip(this)">
                 <div class="tip-header">Avoid Isolation</div>
-                <div class="tip-content">Stick to well-lit, busy streets. Avoid taking shortcuts through dark alleys or parks at night even if it saves time.</div>
+                <div class="tip-content">Stick to well-lit, busy streets. Avoid taking shortcuts through dark alleys or
+                    parks at night even if it saves time.</div>
             </div>
-            
+
             <div class="tip-card" onclick="toggleTip(this)">
                 <div class="tip-header">Emergency Numbers</div>
-                <div class="tip-content">Keep local emergency numbers (Police, Ambulance, Women Helpline) on speed dial.</div>
+                <div class="tip-content">Keep local emergency numbers (Police, Ambulance, Women Helpline) on speed dial.
+                </div>
             </div>
         </div>
     </main>
@@ -420,7 +481,7 @@
     <script>
         // CONFIGURATION
         const EMERGENCY_CONTACT_NUMBER = "1234567890"; // Editable
-        
+
         // DOM Elements
         const emergencyBtn = document.getElementById('emergency-btn');
         const toast = document.getElementById('toast');
@@ -442,7 +503,7 @@
                         const lat = position.coords.latitude;
                         const lng = position.coords.longitude;
                         const mapLink = `https://www.google.com/maps?q=${lat},${lng}`;
-                        
+
                         sendSMS(mapLink);
                     },
                     (error) => {
@@ -466,9 +527,9 @@
             if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
                 separator = '&';
             }
-            
+
             window.open(`sms:${EMERGENCY_CONTACT_NUMBER}${separator}body=${encodeURIComponent(message)}`, '_self');
-            
+
             // Also try to call after a short delay? No, user might want to text silently. 
             // The prompt says "Send to... number stored". SMS link does this by opening app.
         }
@@ -497,16 +558,16 @@
             if (!window.AudioContext && !window.webkitAudioContext) return;
             const AudioContext = window.AudioContext || window.webkitAudioContext;
             const ctx = new AudioContext();
-            
+
             // Simple standard ringer: ON-OFF-ON pattern repeating
             const playTone = () => {
                 const osc = ctx.createOscillator();
                 const gain = ctx.createGain();
-                
+
                 osc.type = 'sine';
                 osc.frequency.setValueAtTime(800, ctx.currentTime);
                 // osc.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 1.5); // classic phone warble
-                
+
                 // Classic warble effect modulation
                 const lfo = ctx.createOscillator();
                 lfo.type = 'square';
@@ -519,13 +580,13 @@
 
                 osc.connect(gain);
                 gain.connect(ctx.destination);
-                
+
                 osc.start();
                 gain.gain.setValueAtTime(0, ctx.currentTime);
                 gain.gain.linearRampToValueAtTime(0.5, ctx.currentTime + 0.1);
                 gain.gain.setValueAtTime(0.5, ctx.currentTime + 1.8);
                 gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 2.0);
-                
+
                 osc.stop(ctx.currentTime + 2.0);
             };
 
@@ -541,9 +602,9 @@
         }
 
         // --- Loud Alarm ---
+        let alarmCtx = null;
         let alarmOscillator = null;
         let isAlarmPlaying = false;
-        let alarmCtx = null;
 
         function toggleAlarm() {
             if (isAlarmPlaying) {
@@ -554,57 +615,34 @@
         }
 
         function startAlarm() {
-            if (!window.AudioContext && !window.webkitAudioContext) return;
             const AudioContext = window.AudioContext || window.webkitAudioContext;
             alarmCtx = new AudioContext();
-            
+
             alarmOscillator = alarmCtx.createOscillator();
-            const gainNode = alarmCtx.createGain();
-            
-            alarmOscillator.type = 'sawtooth'; // Harsh sound
-            alarmOscillator.frequency.setValueAtTime(800, alarmCtx.currentTime);
-            
-            // Siren Effect: sweep frequency up and down
-            const now = alarmCtx.currentTime;
-            alarmOscillator.frequency.linearRampToValueAtTime(1500, now + 0.5);
-            alarmOscillator.frequency.linearRampToValueAtTime(800, now + 1.0);
-            
-            // We need a loop for the sweep. Since Web Audio API loops are tricky with ramps, 
-            // let's use an LFO to modulate frequency for a continuous siren.
-            
-            // Re-create oscillator for LFO approach
-            alarmOscillator.stop(); // stop the manual ramp one
-            alarmOscillator = alarmCtx.createOscillator();
-            alarmOscillator.type = 'sawtooth';
-            alarmOscillator.frequency.value = 1000; // base freq
-            
-            const lfo = alarmCtx.createOscillator();
-            lfo.type = 'triangle';
-            lfo.frequency.value = 2; // 2Hz siren cycle
-            
-            const lfoGain = alarmCtx.createGain();
-            lfoGain.gain.value = 500; // Modulate by +/- 500Hz
-            
-            lfo.connect(lfoGain);
-            lfoGain.connect(alarmOscillator.frequency);
-            
-            alarmOscillator.connect(gainNode);
-            gainNode.connect(alarmCtx.destination);
-            
-            lfo.start();
+            const gain = alarmCtx.createGain();
+
+            alarmOscillator.type = "square";
+            alarmOscillator.frequency.value = 900;
+            gain.gain.value = 0.7;
+
+            alarmOscillator.connect(gain);
+            gain.connect(alarmCtx.destination);
+
             alarmOscillator.start();
-            
-            alarmBtn.classList.add('alarm-active');
+
+            alarmBtn.classList.add("alarm-active");
             alarmBtn.innerHTML = "<span>🔇</span> Stop Alarm";
             isAlarmPlaying = true;
         }
 
         function stopAlarm() {
-            if (alarmCtx) {
-                alarmCtx.close();
-                alarmCtx = null;
-            }
-            alarmBtn.classList.remove('alarm-active');
+            if (alarmOscillator) alarmOscillator.stop();
+            if (alarmCtx) alarmCtx.close();
+
+            alarmOscillator = null;
+            alarmCtx = null;
+
+            alarmBtn.classList.remove("alarm-active");
             alarmBtn.innerHTML = "<span>📢</span> Loud Alarm";
             isAlarmPlaying = false;
         }
@@ -623,4 +661,5 @@
         }
     </script>
 </body>
+
 </html>
