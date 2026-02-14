@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SheSafe - Emergency Alert</title>
+    <style>
+        :root {
+            --bg-color: #FFF0F5; /* Lavender Blush */
+            --primary-color: #FF6B6B; /* Soft Red */
+            --secondary-color: #E6E6FA; /* Lavender */
+            --text-color: #333;
+            --white: #ffffff;
+            --shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-top: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        .tagline {
+            font-size: 1rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* Main Emergency Section */
+        .emergency-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .emergency-btn {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            border: 8px solid rgba(255,255,255,0.5);
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4);
+            transition: all 0.3s ease;
+            outline: none;
+            position: relative;
+            z-index: 2;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            animation: pulse-shadow 2s infinite;
+        }
+
+        .emergency-btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.6);
+        }
+
+        @keyframes pulse-shadow {
+            0% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(255, 107, 107, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0); }
+        }
+
+        /* Secondary Actions */
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 40px;
+        }
+        
+        .actions-grid .action-btn:last-child {
+            grid-column: span 2; /* Make alarm button full width on last row if 3 items */
+        }
+        /* Actually user asked for 3 buttons: Call, Fake Call, Alarm. */
+        /* Let's make "Call" and "Fake Call" side-by-side, "Alarm" below full width */
+        
+        .action-btn {
+            background: var(--white);
+            border: none;
+            padding: 20px;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-color);
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .action-btn i {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+        
+        .action-btn:active {
+             transform: translateY(-1px);
+        }
+
+        .action-btn.alarm-active {
+            background-color: var(--primary-color);
+            color: white;
+            animation: shake 0.5s infinite;
+        }
+
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+
+        /* Safety Tips */
+        .safety-section {
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 30px;
+        }
+
+        .safety-header {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #555;
+            padding-left: 5px;
+        }
+
+        .tip-card {
+            background: var(--white);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .tip-header {
+            padding: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(230, 230, 250, 0.3); /* faint lavender */
+        }
+        
+        .tip-header::after {
+            content: '+';
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .tip-card.open .tip-header::after {
+            content: '-';
+        }
+
+        .tip-content {
+            padding: 0 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease;
+            font-size: 0.95rem;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .tip-card.open .tip-content {
+            padding: 15px;
+            max-height: 200px; /* approximation */
+            border-top: 1px solid #f0f0f0;
+        }
+
+        footer {
+            margin-top: auto;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #888;
+            padding: 20px;
+        }
+
+        /* Fake Call Screen */
+        #fake-call-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000; /* mimic phone call screen usually dark or blurred wallpaper */
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: white;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 60px 20px 80px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        #fake-call-screen.active {
+            transform: translateY(0);
+        }
+
+        .caller-info {
+            text-align: center;
+        }
+
+        .caller-viz {
+            width: 120px;
+            height: 120px;
+            background: #eee;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            margin-left: auto;
+            margin-right: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #ccc;
+        }
+
+        .caller-name {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 10px;
+        }
+        
+        .caller-status {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        .call-actions {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .call-btn {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            color: white;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .decline-btn {
+            background-color: #ff3b30;
+            animation: bounce 2s infinite;
+        }
+        
+        .accept-btn {
+            background-color: #4cd964;
+            animation: bounce 2s infinite 1s;
+        }
+
+        @keyframes bounce {
+             0%, 100% { transform: translateY(0); }
+             50% { transform: translateY(-10px); }
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 100;
+        }
+        
+        .toast.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>SheSafe</h1>
+        <p class="tagline">One tap can save a life.</p>
+    </header>
+
+    <main>
+        <div class="emergency-container">
+            <button id="emergency-btn" class="emergency-btn">
+                EMERGENCY
+            </button>
+        </div>
+
+        <div class="actions-grid">
+            <button class="action-btn" onclick="callContact()">
+                <span>📞</span>
+                Call Contact
+            </button>
+            <button class="action-btn" onclick="startFakeCall()">
+                <span>📲</span>
+                Fake Call
+            </button>
+            <button id="alarm-btn" class="action-btn" onclick="toggleAlarm()">
+                <span>📢</span>
+                Loud Alarm
+            </button>
+        </div>
+
+        <div class="safety-section">
+            <h3 class="safety-header">Safety Tips</h3>
+            
+            <div class="tip-card" onclick="toggleTip(this)">
+                <div class="tip-header">Trust Your Instincts</div>
+                <div class="tip-content">If something feels wrong, it probably is. Leave the situation immediately or move to a crowded place.</div>
+            </div>
+            
+            <div class="tip-card" onclick="toggleTip(this)">
+                <div class="tip-header">Share Your Location</div>
+                <div class="tip-content">Enable live location sharing with trusted contacts on WhatsApp or Google Maps before traveling.</div>
+            </div>
+            
+            <div class="tip-card" onclick="toggleTip(this)">
+                <div class="tip-header">Avoid Isolation</div>
+                <div class="tip-content">Stick to well-lit, busy streets. Avoid taking shortcuts through dark alleys or parks at night even if it saves time.</div>
+            </div>
+            
+            <div class="tip-card" onclick="toggleTip(this)">
+                <div class="tip-header">Emergency Numbers</div>
+                <div class="tip-content">Keep local emergency numbers (Police, Ambulance, Women Helpline) on speed dial.</div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>This tool works offline except for location and SMS.</p>
+    </footer>
+
+    <div class="toast" id="toast">Message Sent!</div>
+
+    <!-- Fake Call Overlay -->
+    <div id="fake-call-screen">
+        <div class="caller-info">
+            <div class="caller-viz">👤</div>
+            <div class="caller-name">Mom</div>
+            <div class="caller-status">Incoming call...</div>
+        </div>
+        <div class="call-actions">
+            <!-- Both buttons just dismiss the fake call for simplicity -->
+            <button class="call-btn decline-btn" onclick="endFakeCall()">✖</button>
+            <button class="call-btn accept-btn" onclick="endFakeCall()">📞</button>
+        </div>
+    </div>
+
+    <script>
+        // CONFIGURATION
+        const EMERGENCY_CONTACT_NUMBER = "1234567890"; // Editable
+        
+        // DOM Elements
+        const emergencyBtn = document.getElementById('emergency-btn');
+        const toast = document.getElementById('toast');
+        const fakeCallScreen = document.getElementById('fake-call-screen');
+        const alarmBtn = document.getElementById('alarm-btn');
+
+        // --- Emergency Functionality ---
+        emergencyBtn.addEventListener('click', () => {
+            // Vibrate phone immediately if supported
+            if (navigator.vibrate) {
+                navigator.vibrate([500, 200, 500]); // Vibrate pattern
+            }
+
+            // Get Location
+            if (navigator.geolocation) {
+                showToast("Getting location...");
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        const mapLink = `https://www.google.com/maps?q=${lat},${lng}`;
+                        
+                        sendSMS(mapLink);
+                    },
+                    (error) => {
+                        showToast("Location failed. Sending generic message.");
+                        sendSMS("Location unavailable.");
+                    }
+                );
+            } else {
+                showToast("Geolocation not supported.");
+                sendSMS("Location unavailable.");
+            }
+        });
+
+        function sendSMS(locationInfo) {
+            const message = `I am in danger. My live location: ${locationInfo}`;
+            // Use sms: link. 
+            // Note: iOS uses '&' for body separator, Android uses '?'. Use '?' as generic standard, might need tweaking for specific OS.
+            // A safer bet for cross-platform is often just the number, let user paste. But prompt asked to prefill.
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            let separator = '?';
+            if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                separator = '&';
+            }
+            
+            window.open(`sms:${EMERGENCY_CONTACT_NUMBER}${separator}body=${encodeURIComponent(message)}`, '_self');
+            
+            // Also try to call after a short delay? No, user might want to text silently. 
+            // The prompt says "Send to... number stored". SMS link does this by opening app.
+        }
+
+        // --- Secondary Actions ---
+        function callContact() {
+            window.location.href = `tel:${EMERGENCY_CONTACT_NUMBER}`;
+        }
+
+        // --- Fake Call ---
+        let ringtoneOscillator = null;
+        let ringtoneInterval = null;
+
+        function startFakeCall() {
+            fakeCallScreen.classList.add('active');
+            playRingtone();
+        }
+
+        function endFakeCall() {
+            fakeCallScreen.classList.remove('active');
+            stopRingtone();
+        }
+
+        // Synthesized Ringtone to avoid external assets
+        function playRingtone() {
+            if (!window.AudioContext && !window.webkitAudioContext) return;
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            const ctx = new AudioContext();
+            
+            // Simple standard ringer: ON-OFF-ON pattern repeating
+            const playTone = () => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(800, ctx.currentTime);
+                // osc.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 1.5); // classic phone warble
+                
+                // Classic warble effect modulation
+                const lfo = ctx.createOscillator();
+                lfo.type = 'square';
+                lfo.frequency.value = 15; // 15Hz rumble
+                const lfoGain = ctx.createGain();
+                lfoGain.gain.value = 50;
+                lfo.connect(lfoGain);
+                lfoGain.connect(osc.frequency);
+                lfo.start();
+
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                
+                osc.start();
+                gain.gain.setValueAtTime(0, ctx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.5, ctx.currentTime + 0.1);
+                gain.gain.setValueAtTime(0.5, ctx.currentTime + 1.8);
+                gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 2.0);
+                
+                osc.stop(ctx.currentTime + 2.0);
+            };
+
+            playTone();
+            ringtoneInterval = setInterval(playTone, 3000); // Repeat every 3s
+        }
+
+        function stopRingtone() {
+            if (ringtoneInterval) {
+                clearInterval(ringtoneInterval);
+                ringtoneInterval = null;
+            }
+        }
+
+        // --- Loud Alarm ---
+        let alarmOscillator = null;
+        let isAlarmPlaying = false;
+        let alarmCtx = null;
+
+        function toggleAlarm() {
+            if (isAlarmPlaying) {
+                stopAlarm();
+            } else {
+                startAlarm();
+            }
+        }
+
+        function startAlarm() {
+            if (!window.AudioContext && !window.webkitAudioContext) return;
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            alarmCtx = new AudioContext();
+            
+            alarmOscillator = alarmCtx.createOscillator();
+            const gainNode = alarmCtx.createGain();
+            
+            alarmOscillator.type = 'sawtooth'; // Harsh sound
+            alarmOscillator.frequency.setValueAtTime(800, alarmCtx.currentTime);
+            
+            // Siren Effect: sweep frequency up and down
+            const now = alarmCtx.currentTime;
+            alarmOscillator.frequency.linearRampToValueAtTime(1500, now + 0.5);
+            alarmOscillator.frequency.linearRampToValueAtTime(800, now + 1.0);
+            
+            // We need a loop for the sweep. Since Web Audio API loops are tricky with ramps, 
+            // let's use an LFO to modulate frequency for a continuous siren.
+            
+            // Re-create oscillator for LFO approach
+            alarmOscillator.stop(); // stop the manual ramp one
+            alarmOscillator = alarmCtx.createOscillator();
+            alarmOscillator.type = 'sawtooth';
+            alarmOscillator.frequency.value = 1000; // base freq
+            
+            const lfo = alarmCtx.createOscillator();
+            lfo.type = 'triangle';
+            lfo.frequency.value = 2; // 2Hz siren cycle
+            
+            const lfoGain = alarmCtx.createGain();
+            lfoGain.gain.value = 500; // Modulate by +/- 500Hz
+            
+            lfo.connect(lfoGain);
+            lfoGain.connect(alarmOscillator.frequency);
+            
+            alarmOscillator.connect(gainNode);
+            gainNode.connect(alarmCtx.destination);
+            
+            lfo.start();
+            alarmOscillator.start();
+            
+            alarmBtn.classList.add('alarm-active');
+            alarmBtn.innerHTML = "<span>🔇</span> Stop Alarm";
+            isAlarmPlaying = true;
+        }
+
+        function stopAlarm() {
+            if (alarmCtx) {
+                alarmCtx.close();
+                alarmCtx = null;
+            }
+            alarmBtn.classList.remove('alarm-active');
+            alarmBtn.innerHTML = "<span>📢</span> Loud Alarm";
+            isAlarmPlaying = false;
+        }
+
+        // --- Helpers ---
+        function toggleTip(card) {
+            card.classList.toggle('open');
+        }
+
+        function showToast(msg) {
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
